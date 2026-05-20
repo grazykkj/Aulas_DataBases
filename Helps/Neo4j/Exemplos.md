@@ -9,7 +9,7 @@ Vamos criar as queries para o nó do tipo `Pessoa` (equivalente à coleção `au
 **Vamos inserir alguns nós de exemplo:**
 ```cypher
 CREATE (:Pessoa {
-  nome: "Ana Clara",
+  nome: "Vitorio",
   idade: 28,
   cidade: "São Paulo",
   profissao: "Cientista de Dados"

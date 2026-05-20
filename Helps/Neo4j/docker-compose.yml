@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   neo4j:
     image: neo4j:5
@@ -20,6 +18,28 @@ services:
       - neo4j_data:/data
       - neo4j_logs:/logs
       - neo4j_plugins:/plugins
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p senha123 'RETURN 1'"]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 40s
+
+  neo4j-init:
+    image: neo4j:5
+    container_name: neo4j_init
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    volumes:
+      - ./init-data.cypher:/init-data.cypher:ro
+    command: >
+      cypher-shell
+      -a bolt://neo4j:7687
+      -u neo4j
+      -p senha123
+      -f /init-data.cypher
+    restart: "no"
 
 volumes:
   neo4j_data:
